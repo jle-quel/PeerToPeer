@@ -27,17 +27,14 @@ func getHash(str string) uint16 {
 	return ret
 }
 
-func		getGuid() string {
-
-	cmd := exec.Command("sh", "-c", "/usr/bin/base64 /dev/random | /usr/bin/head -c 64")
-	out, _ := cmd.Output()
-	return string(out)
-}
-
 func		getTram() s_tram {
 
-	guid := getGuid()
-	hash := getHash(string(guid))
-	tram := s_tram{guid, hash}
+	guid := func() string {
+		cmd := exec.Command("sh", "-c", "/usr/bin/base64 /dev/random | /usr/bin/head -c 64")
+		out, _ := cmd.Output()
+		return (string(out))
+	}
+	hash := getHash(guid())
+	tram := s_tram{guid(), hash}
 	return tram
 }
