@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 20:55:13 by Jefferso          #+#    #+#             */
-/*   Updated: 2017/12/27 13:47:11 by Jefferson        ###   ########.fr       */
+/*   Updated: 2017/12/27 13:48:03 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ func getAddr() {
 	addrs, err := net.LookupIP(host)
 	handleErr(err)
 
+	fmt.Println(host)
 	for _, value := range addrs {
 		fmt.Println(value)
 	}
