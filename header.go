@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 20:55:13 by Jefferso          #+#    #+#             */
-/*   Updated: 2017/12/27 13:48:03 by Jefferson        ###   ########.fr       */
+/*   Updated: 2017/12/27 17:53:06 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@ package main
 
 import (
 	"os/exec"
-	"os"
 	"net"
-	"fmt"
 )
 
 const USHRT_MAX = 65535
@@ -30,13 +28,14 @@ type s_broadcast struct {
 /* ************************************************************************** */
 
 func getGuid() string {
-	cmd := exec.Command("sh", "-c", "/usr/bin/base64 /dev/random | /usr/bin/head -c 64")
+	cmd := exec.Command("/bin/sh", "-c", "/usr/bin/base64 /dev/random | /usr/bin/head -c 64")
 	out, _ := cmd.Output()
 	return (string(out))
 }
 
+// CONFLICT
 func getHash(str string) uint16 {
-	var ret	uint16
+	var ret uint16
 
 	ret = 0
 	for _, value := range str {
@@ -51,20 +50,25 @@ func getHash(str string) uint16 {
 	return ret
 }
 
-func getAddr() {
-	host, err := os.Hostname()
-	handleErr(err)
-	addrs, err := net.LookupIP(host)
-	handleErr(err)
+func getAddr() string {
+	var ret string
 
-	fmt.Println(host)
+	addrs, err := net.InterfaceAddrs()
+	errHandler(err)
+
 	for _, value := range addrs {
-		fmt.Println(value)
+		ip, _, err := net.ParseCIDR(value.String())
+		errHandler(err)
+		if ip.To4() != nil && ip.IsLoopback() == false {
+			ret = ip.String()
+		}
 	}
+
+	return ret
 }
 
 func getHeader() s_broadcast {
 	guid := getGuid()
-	header := s_broadcast{guid, getHash(guid), "lol"}
+	header := s_broadcast{guid, getHash(guid), getAddr()}
 	return header
 }

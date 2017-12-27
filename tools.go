@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 21:36:30 by Jefferso          #+#    #+#             */
-/*   Updated: 2017/12/26 21:45:16 by Jefferson        ###   ########.fr       */
+/*   Updated: 2017/12/27 16:01:54 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ import (
 	"os"
 )
 
-func	handleErr(err error) {
+func errHandler(err error) {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
