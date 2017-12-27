@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 20:55:13 by Jefferso          #+#    #+#             */
-/*   Updated: 2017/12/27 17:53:06 by Jefferson        ###   ########.fr       */
+/*   Updated: 2017/12/27 21:12:31 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ import (
 	"net"
 )
 
-const USHRT_MAX = 65535
+const UINT_MAX =  4294967295
 
 type s_broadcast struct {
 	guid string
-	hash uint16
+	hash uint32
 	addr string
 }
 
@@ -34,19 +34,19 @@ func getGuid() string {
 }
 
 // CONFLICT
-func getHash(str string) uint16 {
-	var ret uint16
+func getHash(str string) uint32 {
+	var ret uint32
 
 	ret = 0
 	for _, value := range str {
-		ret += uint16(value)
+		ret += uint32(value)
 		ret += (ret << 10)
 		ret ^= (ret >> 6)
 	}
 	ret += (ret << 3)
 	ret ^= (ret >> 11)
 	ret += (ret << 15)
-	ret = (ret % USHRT_MAX)
+	ret = (ret % UINT_MAX)
 	return ret
 }
 
