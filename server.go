@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:44:17 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/03 16:45:16 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/03 16:51:39 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ func server() {
 
 	addr, err := net.ResolveUDPAddr("udp4", BROADCAST_PORT)
 	handleErr(err)
-	conn, err := net.ListenUDP("udp", addr)
-	handleErr(err)
-	buf := make([]byte, BUF_SIZE)
-	_, _, err = conn.ReadFrom(buf)
+	socket, err := net.ListenUDP("udp", addr)
 	handleErr(err)
 
-	fmt.Println(decodeData(buf))
-	conn.Close()
+	for {
+		buf := make([]byte, BUF_SIZE)
+		_, _, err = socket.ReadFrom(buf)
+		handleErr(err)
+		fmt.Println(decodeData(buf))
+	}
+	socket.Close()
 }

@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 13:30:49 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/03 16:43:57 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/03 16:47:58 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ func encodeData(peer s_header) *bytes.Buffer {
 func broadcast() {
 	addr, err := net.ResolveUDPAddr("udp4", BROADCAST_ADDR)
 	handleErr(err)
-	conn, err := net.DialUDP("udp", nil, addr)
+	socket, err := net.DialUDP("udp", nil, addr)
 	handleErr(err)
 
 	buf := encodeData(s_header{getAddr(), os.Args[1], getHash(os.Args[1])})
-	conn.Write(buf.Bytes())
-	conn.Close()
+	socket.Write(buf.Bytes())
+	socket.Close()
 }
