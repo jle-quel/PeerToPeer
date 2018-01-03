@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 20:55:08 by Jefferso          #+#    #+#             */
-/*   Updated: 2018/01/03 17:14:18 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/03 19:29:35 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ func main() {
 
 	switch len(os.Args) {
 	case 2:
-		fmt.Println("Broadcasting ...")
-		broadcast()
+		// fmt.Println("Broadcasting ...")
+		// broadcast()
 		fmt.Println("Listening for peers ...\n")
-		go server()
+		server()
 	default:
 		fmt.Println("Usage: ./p2p [username]")
 	}

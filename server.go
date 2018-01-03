@@ -6,21 +6,21 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:44:17 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/03 16:51:39 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/03 19:17:43 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"fmt"
 	"net"
 	"encoding/json"
 	"bytes"
+	"fmt"
 )
 
 /*
-**** PUBLIC ********************************************************************
+**** PRIVATE *******************************************************************
 */
 
 func decodeData(buf []byte) s_header {
@@ -31,7 +31,12 @@ func decodeData(buf []byte) s_header {
 	return peer
 }
 
+/*
+**** PUBLIC ********************************************************************
+*/
+
 func server() {
+	var table routingTable
 
 	addr, err := net.ResolveUDPAddr("udp4", BROADCAST_PORT)
 	handleErr(err)
@@ -40,9 +45,11 @@ func server() {
 
 	for {
 		buf := make([]byte, BUF_SIZE)
-		_, _, err = socket.ReadFrom(buf)
+		_, _, err := socket.ReadFrom(buf)
 		handleErr(err)
-		fmt.Println(decodeData(buf))
+
+		peer := decodeData(buf)
+		f := addData(peer)
 	}
 	socket.Close()
 }
