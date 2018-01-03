@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:44:17 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/03 19:17:43 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/03 20:57:43 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,26 @@ import (
 	"net"
 	"encoding/json"
 	"bytes"
-	"fmt"
 )
 
 /*
 **** PRIVATE *******************************************************************
 */
+
+func initServerSocket() *net.UDPConn {
+	addr, err := net.ResolveUDPAddr("udp4", BROADCAST_PORT)
+	handleErr(err)
+	socket, err := net.ListenUDP("udp", addr)
+	handleErr(err)
+	return socket
+}
+
+func receiveData(socket *net.UDPConn) []byte {
+	buf := make([]byte, BUF_SIZE)
+	_, _, err := socket.ReadFrom(buf)
+	handleErr(err)
+	return buf
+}
 
 func decodeData(buf []byte) s_header {
 	var peer s_header
@@ -35,21 +49,14 @@ func decodeData(buf []byte) s_header {
 **** PUBLIC ********************************************************************
 */
 
-func server() {
-	var table routingTable
-
-	addr, err := net.ResolveUDPAddr("udp4", BROADCAST_PORT)
-	handleErr(err)
-	socket, err := net.ListenUDP("udp", addr)
-	handleErr(err)
+func server(ch chan t_map) {
+	socket := initServerSocket()
+	addData := routingTable()
 
 	for {
-		buf := make([]byte, BUF_SIZE)
-		_, _, err := socket.ReadFrom(buf)
-		handleErr(err)
-
+		buf := receiveData(socket)
 		peer := decodeData(buf)
-		f := addData(peer)
+		ch <- addData(peer)
 	}
 	socket.Close()
 }

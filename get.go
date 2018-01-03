@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 15:35:31 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/03 18:08:37 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/03 21:00:24 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ import (
 
 func getAddr() string {
 	var ret string
+
 	addrs, err := net.InterfaceAddrs()
 	handleErr(err)
 
@@ -43,9 +44,7 @@ func getGuid() string {
 }
 
 func getHash(str string) uint32 {
-	var ret uint32
-
-	ret = 0
+	ret := uint32(0)
 	for _, value := range str {
 		ret += uint32(value)
 		ret += (ret << 10)
