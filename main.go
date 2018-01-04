@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 20:55:08 by Jefferso          #+#    #+#             */
-/*   Updated: 2018/01/04 15:50:42 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 18:58:05 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,10 @@ import (
 	"os"
 )
 
-type s_header struct {
-	Addr string
-	Username string
-}
-
-const UINT_MAX =  4294967295
-// const BROADCAST_ADDR = "255.255.255.255:8888"
-const BROADCAST_ADDR = "10.18.255.255:8888"
-const HEADER_SIZE = 10
-const BROADCAST_PORT = ":8888"
-const BUF_SIZE = 4096
-
 func core() {
-	fmt.Println("Broadcasting ...")
+	fmt.Println("Boot up")
 	broadcast(s_header{getAddr(), os.Args[1]}.Encode())
-
-	// fmt.Println("Listening for peers ...\n")
-	// ch := make(chan t_map)
-	// server(ch)
-    //
-	// for {
-	// 	fmt.Println(<- ch)
-	// }
+	server()
 }
 
 /*
@@ -47,10 +28,15 @@ func core() {
 */
 
 func main() {
-	switch len(os.Args) {
-	case 2:
-		core()
+	switch {
+	case len(os.Args) == 2:
+		switch {
+		case len(os.Args[1]) > 10:
+			fmt.Println("XYZ: username must be <= 10char")
+		default:
+			core()
+		}
 	default:
-		fmt.Println("Usage: ./p2p [username]")
+		fmt.Println("XYZ: ./p2p [username]")
 	}
 }

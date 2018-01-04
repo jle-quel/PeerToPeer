@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:44:17 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/04 15:51:47 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 18:57:48 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@ package main
 
 import (
 	"net"
-	"os"
-	"time"
 	"fmt"
+	"os"
 )
-
-type t_bytes []byte
 
 /*
 **** PRIVATE *******************************************************************
@@ -33,31 +30,27 @@ func initServerSocket() *net.UDPConn {
 	return socket
 }
 
-func receiveData(socket *net.UDPConn) []byte {
-	buf := make([]byte, BUF_SIZE)
-	_, _, err := socket.ReadFrom(buf)
+func receiveData(socket *net.UDPConn) t_bytes {
+	header := make([]byte, HEADER_SIZE)
+	_, _, err := socket.ReadFrom(header)
 	handleErr(err)
-	return buf
-}
-
-func cycle() {
-	time.Sleep(1 * time.Second)
-	broadcast(s_header{getAddr(), os.Args[1]}.Encode())
+	return t_bytes(header)
 }
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func server(ch chan t_map) {
-	socket := initServerSocket()
-	addData := routingTable()
+func server() {
+	tableClosure := routingTable()
 
 	for {
-		buf := t_bytes(receiveData(socket))
-		// broadcast(s_header{getAddr(), os.Args[1]}.Encode())
-		peer := buf.DecodeHeader()
-		fmt.Println(addData(peer))
+		socket := initServerSocket()
+		fmt.Println("Waiting for peers ...")
+		header := receiveData(socket)
+		fmt.Println(tableClosure(header.DecodeHeader()))
+		socket.Close()
+		fmt.Println("Broadcasting ...")
+		broadcast(s_header{getAddr(), os.Args[1]}.Encode())
 	}
-	socket.Close()
 }
