@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:44:17 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/04 14:33:52 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 15:51:47 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@ package main
 import (
 	"net"
 	"os"
+	"time"
+	"fmt"
 )
 
 type t_bytes []byte
@@ -39,6 +41,7 @@ func receiveData(socket *net.UDPConn) []byte {
 }
 
 func cycle() {
+	time.Sleep(1 * time.Second)
 	broadcast(s_header{getAddr(), os.Args[1]}.Encode())
 }
 
@@ -52,10 +55,9 @@ func server(ch chan t_map) {
 
 	for {
 		buf := t_bytes(receiveData(socket))
+		// broadcast(s_header{getAddr(), os.Args[1]}.Encode())
 		peer := buf.DecodeHeader()
-		table := addData(peer)
-		go cycle()
-		ch <- table
+		fmt.Println(addData(peer))
 	}
 	socket.Close()
 }

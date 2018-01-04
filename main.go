@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 20:55:08 by Jefferso          #+#    #+#             */
-/*   Updated: 2018/01/04 13:56:36 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 15:50:42 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ type s_header struct {
 }
 
 const UINT_MAX =  4294967295
-const BROADCAST_ADDR = "255.255.255.255:8888"
+// const BROADCAST_ADDR = "255.255.255.255:8888"
+const BROADCAST_ADDR = "10.18.255.255:8888"
 const HEADER_SIZE = 10
 const BROADCAST_PORT = ":8888"
 const BUF_SIZE = 4096
@@ -32,13 +33,13 @@ func core() {
 	fmt.Println("Broadcasting ...")
 	broadcast(s_header{getAddr(), os.Args[1]}.Encode())
 
-	fmt.Println("Listening for peers ...\n")
-	ch := make(chan t_map)
-	go server(ch)
-
-	for {
-		fmt.Println(<- ch)
-	}
+	// fmt.Println("Listening for peers ...\n")
+	// ch := make(chan t_map)
+	// server(ch)
+    //
+	// for {
+	// 	fmt.Println(<- ch)
+	// }
 }
 
 /*
