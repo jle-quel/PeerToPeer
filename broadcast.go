@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 13:30:49 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/04 14:28:01 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 14:34:26 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@ package main
 import (
 	"net"
 	"bytes"
-	"fmt"
 )
 
 /*
@@ -36,8 +35,7 @@ func initBroadcastSocket() *net.UDPConn {
 
 func broadcast(data *bytes.Buffer) {
 	socket := initBroadcastSocket()
-	size, err := socket.Write(data.Bytes())
+	_, err := socket.Write(data.Bytes())
 	handleErr(err)
-	fmt.Println(size, string(data.Bytes()))
 	socket.Close()
 }
