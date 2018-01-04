@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 13:30:49 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/04 12:02:43 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 13:49:34 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,8 @@ package main
 import (
 	"net"
 	"bytes"
-	// "os"
+	"fmt"
 )
-
-type s_header struct {
-	Addr string
-	Username string
-	Hash uint32
-}
 
 /*
 **** PRIVATE *******************************************************************
@@ -43,5 +37,6 @@ func initBroadcastSocket() *net.UDPConn {
 func broadcast(data *bytes.Buffer) {
 	socket := initBroadcastSocket()
 	socket.Write(data.Bytes())
+	fmt.Println(string(data.Bytes()))
 	socket.Close()
 }

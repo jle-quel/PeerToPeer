@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:44:17 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/04 12:05:33 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 13:55:27 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ func receiveData(socket *net.UDPConn) []byte {
 	return buf
 }
 
+// func cycle(table t_map) {
+// 	time.Sleep(42 * time.Second)
+// 	broadcast(table.Encode())
+// }
+
 /*
 **** PUBLIC ********************************************************************
 */
@@ -45,12 +50,13 @@ func server(ch chan t_map) {
 	socket := initServerSocket()
 	addData := routingTable()
 
-	for {
+	// for {
 		buf := t_bytes(receiveData(socket))
 		peer := buf.DecodeHeader()
 		table := addData(peer)
 		broadcast(table.Encode())
+		// go cycle(table)
 		ch <- table
-	}
+	// }
 	socket.Close()
 }
