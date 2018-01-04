@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:44:17 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/04 13:55:27 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 14:28:38 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@ package main
 
 import (
 	"net"
+	"os"
 )
 
 type t_bytes []byte
@@ -54,7 +55,7 @@ func server(ch chan t_map) {
 		buf := t_bytes(receiveData(socket))
 		peer := buf.DecodeHeader()
 		table := addData(peer)
-		broadcast(table.Encode())
+		broadcast(s_header{getAddr(), os.Args[1]}.Encode())
 		// go cycle(table)
 		ch <- table
 	// }
