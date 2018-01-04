@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 13:30:49 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/04 13:49:34 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 14:20:20 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ func initBroadcastSocket() *net.UDPConn {
 
 func broadcast(data *bytes.Buffer) {
 	socket := initBroadcastSocket()
-	socket.Write(data.Bytes())
-	fmt.Println(string(data.Bytes()))
+	size, err := socket.Write(data.Bytes())
+	handleErr(err)
+	fmt.Println(size, string(data.Bytes()))
 	socket.Close()
 }
