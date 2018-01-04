@@ -6,7 +6,7 @@
 /*   By: Jefferso <Jefferso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/26 20:55:08 by Jefferso          #+#    #+#             */
-/*   Updated: 2018/01/03 20:56:49 by Jefferson        ###   ########.fr       */
+/*   Updated: 2018/01/04 12:06:26 by Jefferson        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ const HEADER_SIZE = 10
 const BROADCAST_PORT = ":8888"
 const BUF_SIZE = 1024
 
-// 1 -> broadcast
-// 2 -> go server
-// 3 -> line editing
-
 func mainServer() {
 	fmt.Println("Listening for peers ...\n")
 	ch := make(chan t_map)
@@ -40,7 +36,7 @@ func mainServer() {
 
 func mainBroadcast() {
 	fmt.Println("Broadcasting ...")
-	broadcast()
+	broadcast(s_header{getAddr(), os.Args[1], getHash(os.Args[1])}.Encode())
 }
 
 /*
@@ -60,4 +56,4 @@ func main() {
 	default:
 		fmt.Println("Usage: ./p2p [username]")
 	}
-}
+}s
