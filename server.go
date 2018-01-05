@@ -16,7 +16,6 @@ import (
 	"net"
 	"fmt"
 	"os"
-	"time"
 )
 
 /*
@@ -52,6 +51,7 @@ func server() {
 		fmt.Println(tableClosure(header.DecodeHeader()))
 		socket.Close()
 		fmt.Println("Broadcasting ...")
+
 		broadcast(s_header{getAddr(), os.Args[1]}.Encode())
 	}
 }
