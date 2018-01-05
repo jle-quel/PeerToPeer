@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.go                                            :+:      :+:    :+:   */
+/*   get.go                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/05 10:49:05 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/05 11:05:12 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/05 10:52:27 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/05 11:03:47 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"fmt"
+	"os/exec"
 )
 
-func main() {
-	guid := getGuid()
-	fmt.Println(guid)
+func getGuid() string {
+	cmd := exec.Command("/bin/sh", "-c", "/usr/bin/base64 /dev/urandom | /usr/bin/head -c 64")
+	ret, err := cmd.Output()
+	handleErr(err)
+	return string(ret)
 }

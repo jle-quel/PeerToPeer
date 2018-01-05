@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.go                                            :+:      :+:    :+:   */
+/*   tools.go                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/05 10:49:05 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/05 11:05:12 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/05 10:56:39 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/05 10:59:26 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
-func main() {
-	guid := getGuid()
-	fmt.Println(guid)
+func handleErr(err error) {
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
