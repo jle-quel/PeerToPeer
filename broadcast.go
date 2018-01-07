@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 11:36:52 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/05 14:44:31 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/07 21:54:39 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ package main
 import (
 	"net"
 	"fmt"
+	"bytes"
 )
 
 /*
@@ -33,10 +34,11 @@ func initBroadcastConn() *net.UDPConn{
 **** PUBLIC ********************************************************************
 */
 
-func broadcast() {
+func broadcast(data *bytes.Buffer) {
 	conn := initBroadcastConn()
 	fmt.Println("Broadcasting ...")
-	_, err := conn.Write([]byte(getGuid()))
+	_, err := conn.Write(data.Bytes())
+	fmt.Println(string(data.Bytes()))
 	handleErr(err)
 	conn.Close()
 }

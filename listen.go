@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 14:12:10 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/05 17:31:48 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/07 21:56:58 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ import (
 */
 
 // func initListenConn() *net.UDPConn{
-// 	addr, err := net.ResolveUDPAddr("udp", LISTEN_ADDR)
+// 	addr, err := net.ResolveUDPAddr("udp", PORT_ADDR)
 // 	handleErr(err)
 // 	conn, err := net.ListenUDP("udp", addr)
 // 	handleErr(err)

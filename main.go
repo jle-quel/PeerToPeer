@@ -6,19 +6,17 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 10:49:05 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/05 17:16:21 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/07 21:55:59 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
-
-import "fmt"
 
 /*
 **** PUBLIC ********************************************************************
 */
 
 func main() {
-	broadcast()
-	listenForPeers()
+	broadcast(getHeader().Encode())
+	// listenForPeers()
 }
