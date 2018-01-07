@@ -20,7 +20,7 @@ import (
 func core() {
 	fmt.Println("Boot up")
 	broadcast(s_header{getAddr(), os.Args[1]}.Encode())
-	server()
+	// server()
 }
 
 /*
