@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PeerDiscovery.go                                   :+:      :+:    :+:   */
+/*   peerDiscovery.go                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 22:00:34 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/08 22:17:04 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/08 22:28:51 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ import (
 */
 
 func initUDPConn() *net.UDPConn{
-	addr, err := net.ResolveUDPAddr("udp", BROADCAST_ADDR)
+	addr, err := net.ResolveUDPAddr("udp", BROADCAST_ADDR + BROADCAST_PORT)
 	handleErr(err)
 	conn, err := net.DialUDP("udp", nil, addr)
 	handleErr(err)
@@ -33,7 +33,7 @@ func initUDPConn() *net.UDPConn{
 **** PUBLIC ********************************************************************
 */
 
-func PeerDiscovery(peer []byte) {
+func peerDiscovery(peer []byte) {
 	fmt.Println("Broadcasting ...")
 
 	conn := initUDPConn()
