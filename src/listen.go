@@ -1,44 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get.go                                             :+:      :+:    :+:   */
+/*   listen.go                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/08 22:01:50 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/09 12:22:06 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/09 11:46:28 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/09 12:29:42 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"time"
-	"os/exec"
+	"net"
+	"fmt"
 )
 
 /*
 **** PRIVATE *******************************************************************
 */
 
-func getId() string {
-	cmd := exec.Command("/bin/sh", "-c", "/usr/bin/base64 /dev/urandom | /usr/bin/head -c 64")
-	ret, err := cmd.Output()
-	handleErr(err)
-	return string(ret)
-}
-
-func getMaj() uint32 {
-	return uint32(time.Now().Unix())
+func handlePeer(conn net.Conn) {
+	buf := make([]byte, HEADERSIZE)
+	conn.Read(buf)
+	fmt.Println(string(buf))
 }
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func getHeader() func() s_header {
-	id := getId()
-	return func() s_header {
-		return s_header{id, getMaj()}
+func listenTCP() {
+	listener, err := net.Listen("tcp", BOOTSTRAP_PORT)
+
+	for {
+		fmt.Println("Listening for headers ...")
+		handleErr(err)
+
+		conn, err := listener.Accept()
+		handleErr(err)
+		handlePeer(conn)
+		conn.Close()
 	}
 }
