@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is a simple implementation of a peer discovery on a p2p network.
+This project is a simple implementation of peer discovery on a p2p network.
 
 The idea behind the project is :
 - The peer enter a network without knowing anyone on this network and broadcast his arrival
