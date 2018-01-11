@@ -10,6 +10,8 @@ The idea behind the project is :
 - Every peer will respond to the new peer, with his header
 - Then the new peer will launch the network cycle to self repair the network if peer disconnect or else
 
+The network is scalable for a mid-network, and works only, for now, on local network ETHERNET/WIFI
+
 ## Author
 
 Jefferson Le Quellec
