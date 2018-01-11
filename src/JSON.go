@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 22:14:03 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/09 12:27:21 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/09 15:07:00 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ func (this s_header) Encode() *bytes.Buffer {
 	return buf
 }
 
-func (this t_bytes) Decode() s_header {
+func (this t_byte) Decode() s_header {
 	var peer s_header
 
 	b := bytes.NewReader(this)

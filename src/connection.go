@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 12:06:08 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/09 12:27:44 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/09 15:11:01 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ func peerDiscovery(peer []byte) {
 
 	conn := initUDPConn()
 	_, err := conn.Write(peer)
-	fmt.Println(string(peer))
 	handleErr(err)
 	conn.Close()
 }
@@ -55,8 +54,7 @@ func peerBootstrap(peer []byte, ip string) {
 	fmt.Println("Bootstraping ...")
 
 	conn := initTCPConn(ip)
-	size, err := conn.Write(peer)
-	fmt.Println(size, string(peer))
+	_, err := conn.Write(peer)
 	handleErr(err)
 	conn.Close()
 }
