@@ -1,38 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   JSON.go                                            :+:      :+:    :+:   */
+/*   broadcast.go                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/08 22:14:03 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/09 15:07:00 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/13 10:41:07 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/13 11:48:41 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"encoding/json"
+	"fmt"
 	"bytes"
+	"net"
+	"encoding/json"
 )
+
+/*
+**** PRIVATE *******************************************************************
+*/
+
+func initUDPConn() *net.UDPConn {
+	addr, err := net.ResolveUDPAddr("udp", BROADCAST_ADDR)
+	handleErr(err)
+	conn, err := net.DialUDP("udp", nil, addr)
+	handleErr(err)
+	return conn
+}
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func (this s_header) Encode() *bytes.Buffer {
-	buf := new(bytes.Buffer)
-	err := json.NewEncoder(buf).Encode(this)
+func (self header) Encode() []byte {
+	b := new(bytes.Buffer)
+	err := json.NewEncoder(b).Encode(self)
 	handleErr(err)
-	return buf
+	return b.Bytes()
 }
 
-func (this t_byte) Decode() s_header {
-	var peer s_header
+func broadcast(b []byte) {
+	fmt.Println("Broadcasting", string(b))
 
-	b := bytes.NewReader(this)
-	err := json.NewDecoder(b).Decode(&peer)
+	conn := initUDPConn()
+	_, err := conn.Write(b)
 	handleErr(err)
-	return peer
+	conn.Close()
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   connection.go                                      :+:      :+:    :+:   */
+/*   server.go                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/09 12:06:08 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/09 15:11:01 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/13 11:52:40 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,10 @@ import (
 **** PRIVATE *******************************************************************
 */
 
-func initUDPConn() *net.UDPConn {
-	addr, err := net.ResolveUDPAddr("udp", BROADCAST_ADDR + BROADCAST_PORT)
+func initUDPListen() *net.UDPConn {
+	addr, err := net.ResolveUDPAddr("udp", BROADCAST_PORT)
 	handleErr(err)
-	conn, err := net.DialUDP("udp", nil, addr)
-	handleErr(err)
-	return conn
-}
-
-func initTCPConn(ip string) *net.TCPConn {
-	addr, err := net.ResolveTCPAddr("tcp", ip + BOOTSTRAP_PORT)
-	handleErr(err)
-	conn, err := net.DialTCP("tcp", nil, addr)
+	conn, err := net.ListenUDP("udp", addr)
 	handleErr(err)
 	return conn
 }
@@ -41,20 +33,15 @@ func initTCPConn(ip string) *net.TCPConn {
 **** PUBLIC ********************************************************************
 */
 
-func peerDiscovery(peer []byte) {
-	fmt.Println("Broadcasting ...")
+func UDPServer() {
+	fmt.Println("Listening for new peers...")
+	buf := make([]byte, HEADER_SIZE)
+	conn := initUDPListen()
 
-	conn := initUDPConn()
-	_, err := conn.Write(peer)
-	handleErr(err)
-	conn.Close()
-}
-
-func peerBootstrap(peer []byte, ip string) {
-	fmt.Println("Bootstraping ...")
-
-	conn := initTCPConn(ip)
-	_, err := conn.Write(peer)
-	handleErr(err)
+	for {
+		_, err := conn.Read(buf)
+		handleErr(err)
+		fmt.Println(string(buf))
+	}
 	conn.Close()
 }

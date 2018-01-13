@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Hfile.go                                           :+:      :+:    :+:   */
+/*   hfile.go                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/08 22:06:01 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/09 15:06:49 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/13 09:40:05 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/13 11:40:43 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
-type s_header struct {
-	Guid string
-	Maj uint32
+/*
+**** STRUCTURES ****************************************************************
+*/
+
+type header struct {
+	Id string
+	Timestamp uint32
+	Addr string
 }
 
-type t_byte []byte
+/*
+**** CONSTANTES ****************************************************************
+*/
 
-const BROADCAST_ADDR = "255.255.255.255"
+const BROADCAST_ADDR = "255.255.255.255:8888"
 const BROADCAST_PORT = ":8888"
-const BOOTSTRAP_PORT = ":8889"
-const HEADERSIZE = 93
+const HEADER_SIZE = 119

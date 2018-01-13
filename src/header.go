@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.go                                            :+:      :+:    :+:   */
+/*   header.go                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/09 14:45:09 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/09 15:54:01 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/13 09:59:51 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/13 10:04:35 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
+	"net"
 	"time"
 	"os/exec"
 )
@@ -28,27 +29,32 @@ func getId() string {
 	return string(ret)
 }
 
-func getMaj() uint32 {
+func getTimestamp() uint32 {
 	return uint32(time.Now().Unix())
+}
+
+func getAddr() string {
+	var addr string
+
+	addrs, err := net.InterfaceAddrs()
+	handleErr(err)
+	for _, value := range addrs {
+		ip, _, err := net.ParseCIDR(value.String())
+		handleErr(err)
+		if ip.IsLoopback() == false && ip.To4() != nil {
+			addr = ip.String()
+		}
+	}
+	return addr
 }
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func initHeader() func() s_header {
+func initHeader() func() header {
 	id := getId()
-
-	return func() s_header {
-		return s_header{id, getMaj()}
-	}
-}
-
-func initRoutingTable() func(peer s_header) []s_header {
-	new := make([]s_header, 0)
-
-	return func(peer s_header) []s_header {
-		new = append(new, peer)
-		return new
+	return func() header {
+		return header{id, getTimestamp(), getAddr()}
 	}
 }
