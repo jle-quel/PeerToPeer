@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:40:05 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 19:15:37 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/13 20:00:06 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,4 @@ type t_map map[string]routingTable
 const BROADCAST_ADDR = "255.255.255.255:8888"
 const BROADCAST_PORT = ":8888"
 const HEADER_SIZE = 119
+const TCP_PORT = ":8889"

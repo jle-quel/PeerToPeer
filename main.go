@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 18:32:20 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/13 20:02:46 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ func handleErr(err error) {
 	}
 }
 
-// func decode(code []byte) header {
-// 	var buf header
-// 	b := bytes.NewReader(code)
-// 	err := json.NewDecoder(b).Decode(&buf)
-// 	handleErr(err)
-// 	return buf
-// }
-
 /*
 **** PUBLIC ********************************************************************
 */
@@ -40,6 +32,6 @@ func main() {
 	// Peer Discovery
 	getHeader := initHeader()
 	broadcast(getHeader().Encode())
-	UDPServer()
-
+	go UDPServer(getHeader)
+	TCPServer()
 }

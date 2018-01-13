@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 19:20:30 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/13 20:08:40 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,11 @@ package main
 import (
 	"fmt"
 	"net"
-	"bytes"
-	"encoding/json"
 )
 
 /*
 **** PRIVATE *******************************************************************
 */
-
-func initUDPListen() *net.UDPConn {
-	addr, err := net.ResolveUDPAddr("udp", BROADCAST_PORT)
-	handleErr(err)
-	conn, err := net.ListenUDP("udp", addr)
-	handleErr(err)
-	return conn
-}
-
-func decode(peer []byte) header {
-	var ret header
-
-	b := bytes.NewReader(peer)
-	err := json.NewDecoder(b).Decode(&ret)
-	handleErr(err)
-	return ret
-}
 
 func initRoutingTable() func(peer header) t_map {
 	m := make(t_map)
@@ -48,20 +29,48 @@ func initRoutingTable() func(peer header) t_map {
 	}
 }
 
+func handlePeer(conn net.Conn) {
+	buf := make([]byte, HEADER_SIZE)
+	conn.Read(buf)
+	fmt.Println(string(buf))
+}
+
 /*
 **** PUBLIC ********************************************************************
 */
 
-func UDPServer() {
-	fmt.Println("Listening for new peers...")
+func UDPServer(getHeader func() header) {
+	fmt.Println("Listening for new peer...")
 	addPeer := initRoutingTable()
 	buf := make([]byte, HEADER_SIZE)
 	conn := initUDPListen()
 
 	for {
+		// Waiting for peer
 		_, err := conn.Read(buf)
 		handleErr(err)
-		fmt.Println(addPeer(decode(buf)))
+
+		// Adding peer to routing table
+		peer := decode(buf)
+		addPeer(peer)
+
+		// Sending myself to new peer
+		getHeader().Send(peer.Addr + TCP_PORT)
 	}
 	conn.Close()
+}
+
+
+func TCPServer() {
+	listener := initTCPListen()
+
+	for {
+		fmt.Println("Listening for headers ...")
+
+		conn, err := listener.Accept()
+		handleErr(err)
+		handlePeer(conn)
+		conn.Close()
+	}
+	listener.Close()
 }
