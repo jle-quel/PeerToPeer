@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:40:05 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 15:17:09 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/13 19:15:37 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ type header struct {
 	Timestamp uint32
 	Addr string
 }
+
+type routingTable struct {
+	Addr string
+}
+
+/*
+***** TYPES ********************************************************************
+*/
+
+type t_map map[string]routingTable
 
 /*
 **** CONSTANTES ****************************************************************

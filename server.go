@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 18:24:13 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/13 19:20:30 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@ package main
 import (
 	"fmt"
 	"net"
+	"bytes"
+	"encoding/json"
 )
 
 /*
@@ -29,19 +31,37 @@ func initUDPListen() *net.UDPConn {
 	return conn
 }
 
+func decode(peer []byte) header {
+	var ret header
+
+	b := bytes.NewReader(peer)
+	err := json.NewDecoder(b).Decode(&ret)
+	handleErr(err)
+	return ret
+}
+
+func initRoutingTable() func(peer header) t_map {
+	m := make(t_map)
+	return func(peer header) t_map {
+		m[peer.Id] = routingTable{peer.Addr}
+		return m
+	}
+}
+
 /*
 **** PUBLIC ********************************************************************
 */
 
 func UDPServer() {
 	fmt.Println("Listening for new peers...")
+	addPeer := initRoutingTable()
 	buf := make([]byte, HEADER_SIZE)
 	conn := initUDPListen()
 
 	for {
 		_, err := conn.Read(buf)
 		handleErr(err)
-		fmt.Println(string(buf))
+		fmt.Println(addPeer(decode(buf)))
 	}
 	conn.Close()
 }
