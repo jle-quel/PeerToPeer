@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.go                                          :+:      :+:    :+:   */
+/*   main.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 11:52:40 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/13 15:41:46 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,32 @@ package main
 
 import (
 	"fmt"
-	"net"
+	"os"
 )
 
-/*
-**** PRIVATE *******************************************************************
-*/
-
-func initUDPListen() *net.UDPConn {
-	addr, err := net.ResolveUDPAddr("udp", BROADCAST_PORT)
-	handleErr(err)
-	conn, err := net.ListenUDP("udp", addr)
-	handleErr(err)
-	return conn
+func handleErr(err error) {
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
+
+// func decode(code []byte) header {
+// 	var buf header
+// 	b := bytes.NewReader(code)
+// 	err := json.NewDecoder(b).Decode(&buf)
+// 	handleErr(err)
+// 	return buf
+// }
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func UDPServer() {
-	fmt.Println("Listening for new peers...")
-	buf := make([]byte, HEADER_SIZE)
-	conn := initUDPListen()
+func main() {
+	// Peer Discovery
+	getHeader := initHeader()
+	broadcast(getHeader().Encode())
+	UDPServer()
 
-	for {
-		_, err := conn.Read(buf)
-		handleErr(err)
-		fmt.Println(string(buf))
-	}
-	conn.Close()
 }
