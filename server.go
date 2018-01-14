@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/14 23:47:48 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 23:57:11 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ func TCPServer(headerCh chan header) {
 		fmt.Println("Listening for header...")
 
 		for { // Time out function
+			fmt.Println("Here")
 			conn, err := listener.Accept()
+			fmt.Println("After")
 			handleErr(err)
 			conn.Read(buf)
 
