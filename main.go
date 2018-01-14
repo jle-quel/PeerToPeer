@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 00:05:56 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 00:15:23 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ func handleErr(err error) {
 func main() {
 	headerCh := make(chan header)
 	getHeader := initHeader()
+	fmt.Println(getHeader())
+	fmt.Printf("\n")
 
 	getHeader().Broadcast()
 	go UDPServer(getHeader, headerCh)
