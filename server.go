@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/14 14:59:31 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 19:09:31 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ func TCPServer() {
 		conn, err := listener.Accept()
 		handleErr(err)
 		conn.Read(buf)
-		fmt.Println(string(buf))
 
+		peer := decode(buf)
+		fmt.Printf("Id [%s]\nAddr [%s]\nTimestamp [%d]\n\n", peer.Id, peer.Addr, peer.Timestamp)
+		
 		conn.Close()
 	}
 	listener.Close()
