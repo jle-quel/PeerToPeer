@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/14 20:41:27 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 23:19:28 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ func main() {
 	getHeader := initHeader()
 
 	getHeader().Broadcast()
-	go UDPServer(getHeader, headerCh)
-	TCPServer(headerCh)
+	UDPServer(getHeader, headerCh)
+	// TCPServer(headerCh)
 }
