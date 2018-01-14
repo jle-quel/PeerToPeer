@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/14 14:55:19 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/14 14:59:48 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 00:05:57 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ import (
 */
 
 func (self header) Broadcast() {
-	fmt.Println("Broadcasting...")
-
 	conn := initUDPConn()
 	_, err := conn.Write(self.Encode())
 	handleErr(err)
@@ -30,8 +28,6 @@ func (self header) Broadcast() {
 }
 
 func (self header) Bootstrap(ip string) {
-	fmt.Println("Bootstraping...")
-
 	conn := initTCPConn(ip)
 	_, err := conn.Write(self.Encode())
 	handleErr(err)
