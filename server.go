@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 00:08:30 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 00:23:32 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@ package main
 import (
 	"fmt"
 )
+
+func debug(peers t_map) {
+	for _, value := range peers {
+		fmt.Println(value)
+	}
+	fmt.Printf("\n")
+}
 
 /*
 **** PUBLIC ********************************************************************
@@ -49,8 +56,7 @@ func TCPServer(headerCh chan header) {
 		conn.Read(buf)
 		fmt.Println("New header...")
 
-		fmt.Println(addPeer(decode(buf)))
-		fmt.Printf("\n")
+		debug(addPeer(decode(buf)))
 		conn.Close()
 	}
 	listener.Close()

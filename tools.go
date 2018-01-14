@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.go                                            :+:      :+:    :+:   */
+/*   tools.go                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 00:21:06 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/15 00:20:50 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/15 00:21:02 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func main() {
-	headerCh := make(chan header)
-	getHeader := initHeader()
-	fmt.Println("Self ->", getHeader())
-	fmt.Printf("\n")
-
-	getHeader().Broadcast()
-	go UDPServer(getHeader, headerCh)
-	TCPServer(headerCh)
+func handleErr(err error) {
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
