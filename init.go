@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   protocol.go                                        :+:      :+:    :+:   */
+/*   init.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 19:34:35 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 20:08:32 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 20:19:26 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,12 @@ func initTCPListen() *net.TCPListener {
 	listen, err := net.ListenTCP("tcp", addr)
 	handleErr(err)
 	return listen
+}
+
+func initRoutingTable() func(peer header) t_map {
+	m := make(t_map)
+	return func(peer header) t_map {
+		m[peer.Id] = routingTable{peer.Addr}
+		return m
+	}
 }
