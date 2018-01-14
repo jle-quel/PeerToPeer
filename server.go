@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/14 20:19:22 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 20:41:55 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@ package main
 
 import (
 	"fmt"
-	"net"
 )
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func UDPServer(getHeader func() header, ch chan t_map) {
+func UDPServer(getHeader func() header, headerCh chan header) {
 	buf := make([]byte, HEADER_SIZE)
 	conn := initUDPListen()
 
@@ -33,19 +32,19 @@ func UDPServer(getHeader func() header, ch chan t_map) {
 
 		peer := decode(buf)
 		go getHeader().Bootstrap(peer.Addr + TCP_PORT)
-		ch <- peer
+		headerCh <- peer
 	}
 	conn.Close()
 }
 
 
-func TCPServer(ch chan t_map) {
+func TCPServer(headerCh chan header) {
 	buf := make([]byte, HEADER_SIZE)
 	listener := initTCPListen()
 	addPeer := initRoutingTable()
 
 	for {
-		addPeer(<- ch)
+		addPeer(<- headerCh)
 		fmt.Println("Listening for header...")
 
 		for { // Time out function
@@ -53,8 +52,9 @@ func TCPServer(ch chan t_map) {
 			handleErr(err)
 			conn.Read(buf)
 
-			temp := addPeer(decode(buf))
+			temp := decode(buf)
 			fmt.Printf("Id [%s]\nAddr [%s]\nTimestamp [%d]\n\n", temp.Id, temp.Addr, temp.Timestamp)
+			addPeer(temp)
 			conn.Close()
 		}
 	}

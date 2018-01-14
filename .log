@@ -1,4 +1,4 @@
-[0.2 2d8d8b6] Testing TCPConn
+[0.2 b835352] Testing
  Committer: Jefferson Le Quellec <jle-quel@Jeffersons-MacBook-Pro.local>
 Your name and email address were configured automatically based
 on your username and hostname. Please check that they are accurate.
@@ -12,6 +12,7 @@ After doing this, you may fix the identity used for this commit with:
 
     git commit --amend --reset-author
 
- 3 files changed, 8 insertions(+), 6 deletions(-)
- delete mode 100755 PeerDiscovery
+ 5 files changed, 54 insertions(+), 43 deletions(-)
+ create mode 100644 .log
+ rename initConn.go => init.go (84%)
 
