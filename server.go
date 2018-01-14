@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 21:20:38 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 14:59:31 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@ package main
 
 import (
 	"fmt"
-	"net"
 )
 
 /*
@@ -29,23 +28,18 @@ func initRoutingTable() func(peer header) t_map {
 	}
 }
 
-func handlePeer(conn net.Conn) {
-	buf := make([]byte, HEADER_SIZE)
-	conn.Read(buf)
-	fmt.Println(string(buf))
-}
-
 /*
 **** PUBLIC ********************************************************************
 */
 
 func UDPServer(getHeader func() header) {
-	fmt.Println("Listening for new peer...")
 	addPeer := initRoutingTable()
 	buf := make([]byte, HEADER_SIZE)
 	conn := initUDPListen()
 
 	for {
+		fmt.Println("Listening for new peer...")
+
 		// Waiting for peer
 		_, err := conn.Read(buf)
 		handleErr(err)
@@ -55,7 +49,7 @@ func UDPServer(getHeader func() header) {
 		addPeer(peer)
 
 		// Sending myself to new peer
-		getHeader().Send(peer.Addr + TCP_PORT)
+		getHeader().Bootstrap(peer.Addr + TCP_PORT)
 	}
 	conn.Close()
 }
@@ -63,13 +57,16 @@ func UDPServer(getHeader func() header) {
 
 func TCPServer() {
 	listener := initTCPListen()
+	buf := make([]byte, HEADER_SIZE)
 
 	for {
-		fmt.Println("Listening for headers ...")
+		fmt.Println("Listening for headers...")
 
 		conn, err := listener.Accept()
 		handleErr(err)
-		handlePeer(conn)
+		conn.Read(buf)
+		fmt.Println(string(buf))
+
 		conn.Close()
 	}
 	listener.Close()

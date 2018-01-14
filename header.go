@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:59:51 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 19:57:50 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 14:59:03 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ import (
 	"net"
 	"time"
 	"os/exec"
-	"fmt"
 )
 
 /*
@@ -58,12 +57,4 @@ func initHeader() func() header {
 	return func() header {
 		return header{id, getTimestamp(), getAddr()}
 	}
-}
-
-func (self header) Send(ip string) {
-	conn := initTCPConn(ip)
-	size, err := conn.Write(self.Encode())
-	handleErr(err)
-	fmt.Println(size)
-	conn.Close()
 }

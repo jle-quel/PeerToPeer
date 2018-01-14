@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/13 20:02:46 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 14:57:08 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ func handleErr(err error) {
 
 func main() {
 	// Peer Discovery
-	getHeader := initHeader()
-	broadcast(getHeader().Encode())
-	go UDPServer(getHeader)
-	TCPServer()
+	// getHeader := initHeader()
+	// getHeader().SendUDP()
+	// broadcast(getHeader().Encode())
+	// go UDPServer(getHeader)
+	// TCPServer()
+	// getHeader().SendTCP("192.168.0.11" + TCP_PORT)
 }
