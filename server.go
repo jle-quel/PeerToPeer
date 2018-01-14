@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/14 23:57:11 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/14 23:58:59 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ func UDPServer(getHeader func() header, headerCh chan header) {
 
 		peer := decode(buf)
 		go getHeader().Bootstrap(peer.Addr + TCP_PORT)
-		headerCh <- peer
+		// headerCh <- peer
 	}
 	conn.Close()
 }
@@ -44,13 +44,11 @@ func TCPServer(headerCh chan header) {
 	addPeer := initRoutingTable()
 
 	for {
-		addPeer(<- headerCh)
+		// addPeer(<- headerCh)
 		fmt.Println("Listening for header...")
 
 		for { // Time out function
-			fmt.Println("Here")
 			conn, err := listener.Accept()
-			fmt.Println("After")
 			handleErr(err)
 			conn.Read(buf)
 
