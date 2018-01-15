@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 13:59:55 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 14:02:42 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ func loop(getHeader func() header) {
 	conn := initUDPListen()
 
 	for {
-		fmt.Println("Listening...")
+		fmt.Println("Listening for peer...")
 		peer := handleConn(conn)
 		debug(addPeer(peer))
 		go HeaderServer(addPeer)
-		getHeader().Bootstrap(peer.Addr + TCP_PORT)
+		go getHeader().Bootstrap(peer.Addr + TCP_PORT)
 	}
 	conn.Close()
 }

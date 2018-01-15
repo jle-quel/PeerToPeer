@@ -6,15 +6,11 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 13:58:25 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 14:02:46 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
-
-import (
-	"time"
-)
 
 /*
 **** PUBLIC ********************************************************************
@@ -26,6 +22,7 @@ func HeaderServer(addPeer func(peer header) t_map) {
 	// listener.SetDeadline(time.Now().Add(1 * time.Second))
 
 	for {
+		fmt.Println("Listening for header...")
 		conn, err := listener.Accept()
 		switch err {
 		case nil:
