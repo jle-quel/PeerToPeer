@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 16:34:40 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 16:37:41 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ func handleConn(conn *net.UDPConn) header {
 	_, err := conn.Read(buf)
 	handleErr(err)
 	peer := decode(buf)
-
-	fmt.Println("New peer")
-	fmt.Printf("Id [%s]\n", peer.Id)
-	fmt.Printf("Addr [%s]\n", peer.Addr)
-	fmt.Printf("Timestamp [%d]\n\n", peer.Timestamp)
 	return peer
 }
 
