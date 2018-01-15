@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 13:49:29 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 13:58:25 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ import (
 func HeaderServer(addPeer func(peer header) t_map) {
 	buf := make([]byte, HEADER_SIZE)
 	listener := initTCPListen()
-	listener.SetDeadline(time.Now().Add(1 * time.Second))
+	// listener.SetDeadline(time.Now().Add(1 * time.Second))
 
 	for {
 		conn, err := listener.Accept()
