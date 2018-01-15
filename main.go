@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 19:14:52 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 19:18:20 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 /*
@@ -34,4 +35,5 @@ func main() {
 	go peerServer(addPeer, getHeader)
 	go headerServer(addPeer)
 	go handleSignal(getHeader)
+	for {}
 }
