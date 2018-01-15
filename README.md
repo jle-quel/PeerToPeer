@@ -15,7 +15,7 @@ When launching, you will be :
 - Assign an ID
 - Broadcasting the network for PeerDiscovery
 - If peer exist on the network, they will send you a tram with `Id, Addr`
-- You will be now fully known on the network and you will have your own routingTable
+- You will be now fully known on the network and will have your own routingTable
 - If you leave the network. You will, before leaving, telling all peers about your action and every peer will update their routingTable, so the network is self repairing
 
 ## Requirements
