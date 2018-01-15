@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.go                                            :+:      :+:    :+:   */
+/*   signal.go                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 16:31:24 by jle-quel         ###   ########.fr       */
+/*   Created: 2018/01/15 16:17:13 by jle-quel          #+#    #+#             */
+/*   Updated: 2018/01/15 16:28:14 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"fmt"
+	"os"
+	"os/signal"
 )
 
-/*
-**** PUBLIC ********************************************************************
-*/
-
-func main() {
-	// Phase 1
-	getHeader := initHeader()
-	addPeer := initRoutingTable()
+func handleSignal(getHeader func()header ) {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<- c
 	getHeader().Broadcast()
-
-	fmt.Printf("Id [%s]\n", getHeader().Id)
-	fmt.Printf("Addr [%s]\n", getHeader().Addr)
-	fmt.Printf("Timestamp [%d]\n\n", getHeader().Timestamp)
-
-	// Phase 2
-	go handleSignal(getHeader)
-	peerServer(addPeer, getHeader)
-	// headerServer(addPeer)
+	os.Exit(42)
 }

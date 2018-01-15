@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 14:18:28 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 16:30:00 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-func debug(peers t_map) {
+func debug(peers t_map, err int) {
 	fmt.Println("Routing Table")
 	for _, value := range peers {
 		fmt.Println(value)
@@ -28,7 +28,7 @@ func debug(peers t_map) {
 **** PUBLIC ********************************************************************
 */
 
-func headerServer(addPeer func(peer header) t_map) {
+func headerServer(addPeer func(peer header) (t_map, int)) {
 	buf := make([]byte, HEADER_SIZE)
 	listener := initTCPListen()
 

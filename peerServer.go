@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 14:18:20 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 16:31:26 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ func handleConn(conn *net.UDPConn) header {
 	fmt.Printf("Id [%s]\n", peer.Id)
 	fmt.Printf("Addr [%s]\n", peer.Addr)
 	fmt.Printf("Timestamp [%d]\n\n", peer.Timestamp)
-
 	return peer
 }
 
@@ -40,14 +39,18 @@ func handleConn(conn *net.UDPConn) header {
 **** PUBLIC ********************************************************************
 */
 
-func peerServer(addPeer func(peer header) t_map, getHeader func() header) {
+func peerServer(addPeer func(peer header) (t_map, int), getHeader func() header) {
 	conn := initUDPListen()
 
 	for {
 		fmt.Println("Listening for peer...")
 		peer := handleConn(conn)
-		addPeer(peer)
-		getHeader().Bootstrap(peer.Addr + TCP_PORT)
+		routingTable, _ := addPeer(peer)
+		// switch err {
+		// case 0:
+		// 	getHeader().Bootstrap(peer.Addr + TCP_PORT)
+		// }
+		debug(routingTable, 42)
 	}
 	conn.Close()
 }
