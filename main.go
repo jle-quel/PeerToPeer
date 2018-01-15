@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 17:32:56 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 17:34:13 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ func main() {
 
 	// Phase 2
 	go handleSignal(getHeader)
-	peerServer(addPeer, getHeader)
-	// headerServer(addPeer)
+	go peerServer(addPeer, getHeader)
+	headerServer(addPeer)
 }
