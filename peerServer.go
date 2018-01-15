@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 14:12:25 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 14:15:48 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,6 @@ func handleConn(conn *net.UDPConn) header {
 	return peer
 }
 
-func debug(peers t_map) {
-	fmt.Println("Routing Table")
-	for _, value := range peers {
-		fmt.Println(value)
-	}
-	fmt.Printf("\n")
-}
-
 /*
 **** PUBLIC ********************************************************************
 */
@@ -54,8 +46,8 @@ func peerServer(addPeer func(peer header) t_map, getHeader func() header) {
 	for {
 		fmt.Println("Listening for peer...")
 		peer := handleConn(conn)
-		debug(addPeer(peer))
-		getHeader().Bootstrap(peer.Addr + TCP_PORT)
+		addPeer(peer)
+		go getHeader().Bootstrap(peer.Addr + TCP_PORT)
 	}
 	conn.Close()
 }
