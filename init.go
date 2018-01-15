@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 19:34:35 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 16:58:30 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 18:41:46 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ func initTCPListen() *net.TCPListener {
 }
 
 func initRoutingTable() func(peer header) (t_map, int) {
+	var ret int
 	m := make(t_map)
 	return func(peer header) (t_map, int) {
 		_, ok := m[peer.Id]
 		switch ok {
 		case true:
 			delete(m, peer.Id)
-			return m, 1
+			ret = 1
 		case false:
 			m[peer.Id] = routingTable{peer.Addr}
+			ret = 0
 		}
-		return m, 0
+		return m, ret
 	}
 }
