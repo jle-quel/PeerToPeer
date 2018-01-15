@@ -3,7 +3,7 @@
 ## Description
 
 This project is a simple implementation of peer discovery on a p2p network.
-Only working on LAN in ETHERNET/WIFI
+Only working on LAN in ETHERNET or WIFI
 
 The idea behind it is to :
 - Learn about network, and how peers can interact with each others in a fully decentralized architecture
