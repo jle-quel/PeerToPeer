@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 13:49:36 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 14:12:08 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ import (
 func main() {
 	// Phase 1
 	getHeader := initHeader()
+	addPeer := initRoutingTable()
 	getHeader().Broadcast()
 
 	fmt.Printf("Id [%s]\n", getHeader().Id)
@@ -30,5 +31,6 @@ func main() {
 	fmt.Printf("Timestamp [%d]\n\n", getHeader().Timestamp)
 
 	// Phase 2
-	loop(getHeader)
+	go peerServer(addPeer, getHeader)
+	headerServer(addPeer)
 }

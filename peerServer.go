@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.go                                            :+:      :+:    :+:   */
+/*   peerServer.go                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 14:02:42 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 14:12:25 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,14 @@ func debug(peers t_map) {
 **** PUBLIC ********************************************************************
 */
 
-func loop(getHeader func() header) {
-	addPeer := initRoutingTable()
+func peerServer(addPeer func(peer header) t_map, getHeader func() header) {
 	conn := initUDPListen()
 
 	for {
 		fmt.Println("Listening for peer...")
 		peer := handleConn(conn)
 		debug(addPeer(peer))
-		go HeaderServer(addPeer)
-		go getHeader().Bootstrap(peer.Addr + TCP_PORT)
+		getHeader().Bootstrap(peer.Addr + TCP_PORT)
 	}
 	conn.Close()
 }
