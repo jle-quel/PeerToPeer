@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 19:02:52 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 19:08:54 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ import (
 func main() {
 	// Phase 1
 	getHeader := initHeader()
+	go handleSignal(getHeader)
 	addPeer := initRoutingTable()
 	getHeader().Broadcast()
 
@@ -32,6 +33,5 @@ func main() {
 
 	// Phase 2
 	go peerServer(addPeer, getHeader)
-	go headerServer(addPeer)
-	handleSignal(getHeader)
+	headerServer(addPeer)
 }
