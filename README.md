@@ -6,7 +6,7 @@ This project is a simple implementation of peer discovery on a p2p network.
 It is only working on LAN in ETHERNET/WIFI
 
 The idea behind it is to :
-- Learn about network, and how peers can interact with each others
+- Learn about network, and how peers can interact with each others in a fully decentralized architecture
 - Experiment with go
 
 ## Actions
