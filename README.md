@@ -41,7 +41,7 @@ LOL
 ```
 git clone https://github.com/jle-quel/PeerDiscovery.git
 cd PeerDiscovery && go build
-make && ./21sh
+./PeerDiscovery
 ```
 
 ## Contributing
