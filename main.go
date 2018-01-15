@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 16:49:29 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 16:58:38 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ func main() {
 	fmt.Printf("Timestamp [%d]\n\n", getHeader().Timestamp)
 
 	// Phase 2
-	// go handleSignal(getHeader)
+	go handleSignal(getHeader)
 	peerServer(addPeer, getHeader)
 	// headerServer(addPeer)
 }
