@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 16:37:41 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 16:49:30 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ func peerServer(addPeer func(peer header) (t_map, int), getHeader func() header)
 	for {
 		fmt.Println("Listening for peer...")
 		peer := handleConn(conn)
-		routingTable, err := addPeer(peer)
-		switch err {
-		case 0:
-			getHeader().Bootstrap(peer.Addr + TCP_PORT)
-		}
+		routingTable, _ := addPeer(peer)
+		// switch err {
+		// case 0:
+		// 	getHeader().Bootstrap(peer.Addr + TCP_PORT)
+		// }
 		debug(routingTable, 42)
 	}
 	conn.Close()
