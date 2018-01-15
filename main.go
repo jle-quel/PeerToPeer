@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 00:21:06 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 11:38:47 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ import (
 */
 
 func main() {
-	headerCh := make(chan header)
+	// Phase 1
 	getHeader := initHeader()
-	fmt.Println("Self ->", getHeader())
-	fmt.Printf("\n")
-
 	getHeader().Broadcast()
-	go UDPServer(getHeader, headerCh)
-	TCPServer(headerCh)
+
+	fmt.Printf("Id [%s]\n", getHeader().Id)
+	fmt.Printf("Addr [%s]\n", getHeader().Addr)
+	fmt.Printf("Timestamp [%d]\n\n", getHeader().Timestamp)
+
+	// Phase 2
+	loop(getHeader)
 }

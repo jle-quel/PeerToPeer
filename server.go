@@ -6,58 +6,35 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 00:23:32 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/15 11:47:10 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"fmt"
+	"time"
 )
-
-func debug(peers t_map) {
-	for _, value := range peers {
-		fmt.Println(value)
-	}
-	fmt.Printf("\n")
-}
 
 /*
 **** PUBLIC ********************************************************************
 */
 
-func UDPServer(getHeader func() header, headerCh chan header) {
-	buf := make([]byte, HEADER_SIZE)
-	conn := initUDPListen()
-
-	for {
-		_, err := conn.Read(buf)
-		handleErr(err)
-		fmt.Println("New peer...")
-
-		peer := decode(buf)
-		fmt.Println(peer)
-		fmt.Printf("\n")
-		go getHeader().Bootstrap(peer.Addr + TCP_PORT)
-	}
-	conn.Close()
-}
-
-
-func TCPServer(headerCh chan header) {
+func HeaderServer(addPeer func(peer header) t_map) {
 	buf := make([]byte, HEADER_SIZE)
 	listener := initTCPListen()
-	addPeer := initRoutingTable()
+	listener.SetDeadline(time.Now().Add(1 * time.Second))
 
 	for {
 		conn, err := listener.Accept()
-		handleErr(err)
-		conn.Read(buf)
-		fmt.Println("New header...")
-
-		debug(addPeer(decode(buf)))
-		conn.Close()
+		switch err {
+		case nil:
+			conn.Read(buf)
+			addPeer(decode(buf))
+			conn.Close()
+		default:
+			return
+		}
 	}
 	listener.Close()
 }
