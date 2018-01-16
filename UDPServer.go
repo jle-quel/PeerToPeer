@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/16 13:01:46 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 13:05:23 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ func handleConn(conn *net.UDPConn) header {
 **** PUBLIC ********************************************************************
 */
 
-func UDPServer(addPeer func(peer header) (t_map, int), getHeader func() header, ch chan t_map) {
+func UDPServer(addPeer func(peer header) (t_map, int), getHeader func() header) {
 	conn := initUDPListen()
 
 	for {
@@ -45,7 +45,7 @@ func UDPServer(addPeer func(peer header) (t_map, int), getHeader func() header, 
 		case 0:
 			go getHeader().Bootstrap(peer.Addr + TCP_PORT)
 		}
-		ch <- routingTable
+		debug(routingTable, 42)
 	}
 	conn.Close()
 }
