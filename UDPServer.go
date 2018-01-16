@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   peerServer.go                                      :+:      :+:    :+:   */
+/*   UDPServer.go                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 18:42:00 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 12:58:44 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"fmt"
 	"net"
+	"fmt"
 )
 
 /*
@@ -34,18 +34,18 @@ func handleConn(conn *net.UDPConn) header {
 **** PUBLIC ********************************************************************
 */
 
-func peerServer(addPeer func(peer header) (t_map, int), getHeader func() header) {
+func UDPServer(addPeer func(peer header) (t_map, int), getHeader func() header) {
 	conn := initUDPListen()
 
 	for {
-		fmt.Println("Listening for peer...")
+		fmt.Println("Listening for UDPConn...")
 		peer := handleConn(conn)
-		routingTable, err := addPeer(peer)
+		_, err := addPeer(peer)
 		switch err {
 		case 0:
-			go getHeader().Bootstrap(peer.Addr + TCP_PORT)
+			// go getHeader().Bootstrap(peer.Addr + TCP_PORT)
+			getHeader().Bootstrap(peer.Addr + TCP_PORT)
 		}
-		debug(routingTable, 42)
 	}
 	conn.Close()
 }

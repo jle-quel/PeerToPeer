@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 19:18:20 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 12:58:22 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,32 @@ package main
 
 import (
 	"fmt"
+	"bufio"
+	"os"
 )
 
 /*
 **** PUBLIC ********************************************************************
 */
 
+func loop(ch chan t_map) {
+	for {
+		reader := bufio.NewReader(os.Stdin)
+		ret, err := reader.ReadByte()
+		handleErr(err)
+
+		switch ret {
+		case 49:
+			fmt.Println(<- ch)
+		default:
+			fmt.Println("not yet")
+		}
+	}
+}
+
 func main() {
 	// Phase 1
+	ch := make(chan t_map)
 	getHeader := initHeader()
 	addPeer := initRoutingTable()
 	getHeader().Broadcast()
@@ -31,8 +49,8 @@ func main() {
 	fmt.Printf("Timestamp [%d]\n\n", getHeader().Timestamp)
 
 	// Phase 2
-	go peerServer(addPeer, getHeader)
-	go headerServer(addPeer)
+	go UDPServer(addPeer, getHeader)
+	go TCPServer(addPeer, ch)
 	go handleSignal(getHeader)
-	for {}
+	loop(ch)
 }

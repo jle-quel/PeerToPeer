@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   headerServer.go                                    :+:      :+:    :+:   */
+/*   TCPServer.go                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/15 16:39:32 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 12:58:21 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,20 @@ import (
 	"fmt"
 )
 
-func debug(peers t_map, err int) {
-	fmt.Println("Routing Table")
-	for _, value := range peers {
-		fmt.Println(value)
-	}
-	fmt.Printf("\n")
-}
-
 /*
 **** PUBLIC ********************************************************************
 */
 
-func headerServer(addPeer func(peer header) (t_map, int)) {
+func TCPServer(addPeer func(peer header) (t_map, int), ch chan t_map) {
 	buf := make([]byte, HEADER_SIZE)
 	listener := initTCPListen()
 
 	for {
-		fmt.Println("Listening for header...")
+		fmt.Println("Listening for TCPConn...")
 		conn, _ := listener.Accept()
 		conn.Read(buf)
-		debug(addPeer(decode(buf)))
+		routingTable, _ := addPeer(decode(buf))
+		ch <- routingTable
 		conn.Close()
 	}
 	listener.Close()
