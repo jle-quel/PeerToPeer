@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 11:42:46 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/16 13:05:19 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 13:06:23 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ func debug(peers t_map, err int) {
 **** PUBLIC ********************************************************************
 */
 
-func TCPServer(addPeer func(peer header) (t_map, int), ch chan t_map) {
+func TCPServer(addPeer func(peer header) (t_map, int)) {
 	buf := make([]byte, HEADER_SIZE)
 	listener := initTCPListen()
 
