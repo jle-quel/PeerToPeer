@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 09:36:55 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/16 12:58:22 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 13:02:07 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ func main() {
 	fmt.Printf("Timestamp [%d]\n\n", getHeader().Timestamp)
 
 	// Phase 2
-	go UDPServer(addPeer, getHeader)
+	go UDPServer(addPeer, getHeader, ch)
 	go TCPServer(addPeer, ch)
 	go handleSignal(getHeader)
 	loop(ch)
