@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/16 13:14:39 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 13:20:15 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ package main
 import (
 	"net"
 	"fmt"
+	"time"
 )
 
 /*
@@ -42,6 +43,7 @@ func UDPServer(addPeer func(peer header) (t_map, int), getHeader func() header) 
 		peer := handleConn(conn)
 		routingTable, err := addPeer(peer)
 		if err == 0 {
+			time.Sleep(1 * time.Second)
 			go getHeader().Bootstrap(peer.Addr + TCP_PORT)
 		}
 		debug(routingTable, 42)

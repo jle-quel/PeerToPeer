@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 19:34:35 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/16 13:14:22 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 13:16:10 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ func initTCPConn(ip string) *net.TCPConn {
 	addr, err := net.ResolveTCPAddr("tcp", ip)
 	handleErr(err)
 	conn, err := net.DialTCP("tcp", nil, addr)
-	if err != nil {
-		initTCPConn(ip)
-	}
+	handleErr(err)
 	return conn
 }
 
