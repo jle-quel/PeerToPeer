@@ -6,7 +6,7 @@
 /*   By: jle-quel <jle-quel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 10:58:36 by jle-quel          #+#    #+#             */
-/*   Updated: 2018/01/16 13:06:27 by jle-quel         ###   ########.fr       */
+/*   Updated: 2018/01/16 13:12:07 by jle-quel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ func UDPServer(addPeer func(peer header) (t_map, int), getHeader func() header) 
 		fmt.Println("Listening for UDPConn...")
 		peer := handleConn(conn)
 		routingTable, err := addPeer(peer)
-		switch err {
-		case 0:
+		if err == 0 {
 			go getHeader().Bootstrap(peer.Addr + TCP_PORT)
 		}
 		debug(routingTable, 42)
