@@ -7,9 +7,9 @@ The aim of this project is to:
 - How peers can interact with each other on a fully decentralized architecture
 - Experiment with go
 
-## Installation and Usage
+## Installation
 
-You need to have
+You need to have golang installed
 
 ```
 git clone https://github.com/jle-quel/PeerDiscovery.git && cd PeerDiscovery
